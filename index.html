@@ -1584,7 +1584,7 @@ function lambdaColor(l) {
   for (let i = 0; i < st.length - 1; i++) if (l <= st[i + 1][0]) { const t = (l - st[i][0]) / (st[i + 1][0] - st[i][0]); return `rgb(${st[i][1].map((c, k) => Math.round(c + t * (st[i + 1][1][k] - c))).join(',')})`; }
   return 'rgb(160,0,0)';
 }
-const visGrad = id => `<linearGradient id="${id}">${[380, 430, 480, 520, 570, 610, 650, 700].map((l, i, a) => `<stop offset="${i / (a.length - 1)}" stop-color="${lambdaColor(l)}"/>`).join('')}</linearGradient>`;
+const visGrad = (id, rev) => `<linearGradient id="${id}"${rev ? ' x1="1" x2="0"' : ''}>${[380, 430, 480, 520, 570, 610, 650, 700].map((l, i, a) => `<stop offset="${i / (a.length - 1)}" stop-color="${lambdaColor(l)}"/>`).join('')}</linearGradient>`;
 
 /* ===================== figuras de la teoría ===================== */
 function figuras() {
@@ -1636,7 +1636,7 @@ function figuras() {
     s += T(221, 11, 'analizador girado 90°', 'class="lb" text-anchor="middle"') + T(240, 54, 'no pasa luz', `class="lb" fill="${RO}"`);
     put('fig-pol', s + '</svg>'); }
   // espectro
-  { const W = 700; let s = `<svg class="fig" viewBox="0 0 ${W} 150" width="100%" style="max-width:760px">${DEFS}<defs>${visGrad('gv')}</defs>`;
+  { const W = 700; let s = `<svg class="fig" viewBox="0 0 ${W} 150" width="100%" style="max-width:760px">${DEFS}<defs>${visGrad('gv', true)}</defs>`;
     const reg = [[0, 140, '#c9d6f3', 'ONDAS DE RADIO'], [140, 235, '#a9bfe9', 'MICROONDAS'], [235, 330, '#f0c4c4', 'INFRARROJO'], [355, 450, '#dccbec', 'ULTRAVIOLETA'], [450, 570, '#d9d9d9', 'RAYOS X'], [570, 700, '#bdbdbd', 'RAYOS GAMMA']];
     reg.forEach(([a, b, c, t]) => s += `<rect x="${a}" y="40" width="${b - a}" height="38" fill="${c}"/>` + T((a + b) / 2, 63, t, 'text-anchor="middle" font-weight="700" class="lb"'));
     s += `<rect x="330" y="40" width="25" height="38" fill="url(#gv)"/>` + T(342, 34, 'VISIBLE', 'text-anchor="middle" font-weight="700" class="lb"') + `<rect x="0" y="40" width="700" height="38" fill="none" stroke="#222"/>`;
